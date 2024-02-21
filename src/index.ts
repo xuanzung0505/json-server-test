@@ -16,6 +16,11 @@ server.get("/echo", (req, res) => {
 server.use(jsonServer.bodyParser);
 server.use((req, res, next) => {
   if (["POST", "PUT", "PATCH"].includes(req.method)) {
+    if (req.body.title === "type string") {
+      return res.status(500).send({
+        error: "An error of type string",
+      });
+    }
     if (new Date(req.body.publishDate).getTime() < new Date().getTime()) {
       return res.status(422).send({
         error: {
